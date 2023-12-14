@@ -2,27 +2,41 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use  Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     *
+     * 
      */
-    public function run(): void
+    public function run()
     {
-        $faker = Faker::create('id_ID');
+        // Menambahkan contoh pengguna
+        DB::table('users')->insert([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password'),
+        ]);
 
-        for($i = 1; $i <= 20; $i++){
-            DBT::table('users')->insert([
-                'name' =>$faker->name,
-                'email'=>$faker->email,
-                'email_verified_at'=>now(),
-                'password' => Hash::make('password'),
-                'creatae_update' =>now(),
-                'update_at' =>now(),
-            ]);
-        }
+        DB::table('users')->insert([
+            'name' => 'Pustakawan',
+            'email' => 'pustakawan@example.com',
+            'password' => Hash::make('password'),
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'Anggota',
+            'email' => 'anggota@example.com',
+            'password' => Hash::make('password'),
+        ]);
+
+        // Tambahkan lebih banyak pengguna sesuai kebutuhan
+
+        $this->command->info('UserSeeder berhasil dijalankan!');
     }
 }

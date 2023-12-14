@@ -13,19 +13,10 @@ return new class extends Migration
     {
         Schema::create('bookshelves', function (Blueprint $table) {
             $table->id();
-            $tabel->string('code', 15);
-            $table_string('name', );
+            $table->string('code', 10)->unique();
+            $table->string('name');
+            $table->string('image')->nullable();
             $table->timestamps();
-        });
-
-        Schema::create('bookshelves', function (Blueprint $table){
-            $table->unsignedBigInteger('bookshelf_id')->after('quantity');
-
-            $table->foreign('bookshelf_id')
-                    ->references('id')
-                    ->on('bookshelves')
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade');
         });
     }
 
@@ -34,13 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::create('bookshelves', function (Blueprint $table)
-        {
-            $table->dropForeign('books_bokkshelf_id_foreign');
-            $table->dropColumn('bookshelf_id');
-        });
-    
-        
         Schema::dropIfExists('bookshelves');
     }
 };

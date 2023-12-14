@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\BookshelfController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +21,39 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::middleware('auth')->group(function () {
+    // Route::get('/role', function () {
+    //     return view('welcome');
+    // })->middleware(['role:mahasiswa']);
+    Route::view('/roles', 'role')->name('role')->middleware(['role:pustakawan']);
+    Route::group(
+        [
+            'middleware' => ['role:admin'],
+            'prefix' => 'bookshelf',
+            'as' => 'bookshelf.'
+        ],
+        function () {
+            Route::get('/', [BookshelfController::class, 'index'])->name('index');
+            Route::get('/create', [BookshelfController::class, 'create'])->name('create');
+            Route::post('/', [BookshelfController::class, 'store'])->name('store');
+            Route::get('/edit/{id}', [BookshelfController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [BookshelfController::class, 'update'])->name('update');
+            Route::delete('/{id}', [BookshelfController::class, 'destroy'])->name('destroy');
+            Route::get('/print', [BookshelfController::class, 'print'])->name('print');
+        }
+    );
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/books', [BookController::class, 'index'])->name('book');
+    Route::get('/book/create', [BookController::class,'create'])->name('book.create');
+    Route::post('/books', [BookController::class, 'store'])->name('book.store');
+   
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -29,7 +62,11 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::view('/roles', 'role')->name('role')->middleware(['role:pustakawan']);
-});
+   
+     Route::get('/books/{id}/edit', [BookController::class,
+    'edit'])->name('book.edit');
+     Route::match(['put', 'patch'], '/books/{id}',
+    [BookController::class, 'update'])->name('book.update');
+    });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
