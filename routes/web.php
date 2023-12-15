@@ -22,26 +22,17 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth')->group(function () {
-    // Route::get('/role', function () {
-    //     return view('welcome');
-    // })->middleware(['role:mahasiswa']);
-    Route::view('/roles', 'role')->name('role')->middleware(['role:pustakawan']);
-    Route::group(
-        [
-            'middleware' => ['role:admin'],
-            'prefix' => 'bookshelf',
-            'as' => 'bookshelf.'
-        ],
-        function () {
+ 
+       
             Route::get('/', [BookshelfController::class, 'index'])->name('index');
             Route::get('/create', [BookshelfController::class, 'create'])->name('create');
             Route::post('/', [BookshelfController::class, 'store'])->name('store');
             Route::get('/edit/{id}', [BookshelfController::class, 'edit'])->name('edit');
             Route::put('/{id}', [BookshelfController::class, 'update'])->name('update');
-            Route::delete('/{id}', [BookshelfController::class, 'destroy'])->name('destroy');
+            Route::delete('books/{book}', [BookshelfController::class, 'destroy'])->name('book.destroy');
             Route::get('/print', [BookshelfController::class, 'print'])->name('print');
-        }
-    );
+        
+    
 });
 
 Route::get('/dashboard', function () {
@@ -51,7 +42,7 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/books', [BookController::class, 'index'])->name('book');
     Route::get('/book/create', [BookController::class,'create'])->name('book.create');
-    Route::post('/books', [BookController::class, 'store'])->name('book.store');
+    Route::post('/books/store', [BookController::class, 'store'])->name('book.store');
    
 });
 
@@ -68,5 +59,7 @@ Route::middleware('auth')->group(function () {
      Route::match(['put', 'patch'], '/books/{id}',
     [BookController::class, 'update'])->name('book.update');
     });
+
+
 
 require __DIR__ . '/auth.php';

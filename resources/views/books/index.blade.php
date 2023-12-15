@@ -22,7 +22,7 @@
                                 <th>Cover</th>
                                 <th>Kuantitas</th>
                                 <th>Kode Rak</th>
-                                {{-- <th>Aksi</th> --}}
+                                <th>Aksi</th> 
                             </tr>
                         </x-slot>
                         @php $num=1; @endphp
@@ -39,15 +39,19 @@
                             </td>
                             <td>{{ $book->quantity }}</td>
                             <td>{{ $book->bookshelf->code }}-{{ $book->bookshelf->name }}</td>
-                            {{-- <td>
+                            <td>
                                 <x-primary-button tag="a" href="{{route('book.edit', $book->id)}}">Edit
                                 </x-primary-button>
-                            </td> --}}
-                            {{-- <x-danger-button x-data=""
-                                x-on:click.prevent="$dispatch('open-modal', 'confirm-book-deletion')"
-                                x-on:click="$dispatch('set-action', '{{route('book.destroy', $book->id) }}')">{{
-                                __('Delete') }}</x-danger-button> --}}
-                            
+                            </td> 
+                            <td>
+                            <x-danger-button
+    x-data=""
+    x-on:click.prevent="$dispatch('open-modal', 'confirm-book-deletion', { bookId: {{ $book->id }} })"
+    x-on:click="$dispatch('set-action', '{{ route('book.destroy', $book->id) }}')">
+    {{ __('Delete') }}
+</x-danger-button>
+                            </td>
+                          
                         </tr>
                      @endforeach
                     </x-table>

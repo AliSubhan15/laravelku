@@ -25,6 +25,20 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bookshelves');
-    }
+        Schema::table('books', function (Blueprint $table) {
+            $table->unsignedBigInteger('bookshelf_id')->after('quantity');
+            $table->foreign('bookshelf_id')
+            ->references('id')
+            ->on('bookshelves')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
+            
+        });
+          
+            Schema::table('books', function (Blueprint $table) {
+            $table->dropForeign('books_bookshelf_id_foreign');
+            $table->dropColumn('bookshelf_id');
+            });
+            Schema::dropIfExists('bookshelves');
+            }
 };

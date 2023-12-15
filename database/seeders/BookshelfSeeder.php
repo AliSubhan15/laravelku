@@ -35,6 +35,12 @@ class BookshelfSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now()
             ],
+           
+
+
         ]);
+        //  foreach ($data as $key => $i){
+        //         Bookshelf::insert($i);
+        //     }
     }
 }
