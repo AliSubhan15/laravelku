@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use App\Models\Book;
 use App\Models\Bookshelf;
 use Illuminate\Http\Request;
+use App\Imports\BooksImport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BooksExport;
+
 
 
 class BookController extends Controller
@@ -108,5 +113,25 @@ public function edit(string $id)
          return redirect()->route('book')->with($notification);
         }
    
-   
+
+
+public function export(){
+    return Excel::download(new BooksExport, 'books.xlsx');
+}
+
+public function import(Request $req) 
+ {
+ $req->validate([
+ 'file' => 'required|max:10000|mimes:xlsx,xls',
+ ]);
+ 
+ Excel::import(new BooksImport, $req->file('file'));
+ 
+ $notification = array(
+ 'message' => 'Import data berhasil dilakukan',
+ 'alert-type' => 'success'
+ );
+ return redirect()->route('book')->with($notification);
+ }
+
 }

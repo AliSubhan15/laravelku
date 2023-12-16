@@ -4,6 +4,7 @@ use App\Http\Controllers\BookshelfController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
+use App\Models\Book;
 
 
 /*
@@ -30,7 +31,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/edit/{id}', [BookshelfController::class, 'edit'])->name('edit');
             Route::put('/{id}', [BookshelfController::class, 'update'])->name('update');
             Route::delete('books/{book}', [BookshelfController::class, 'destroy'])->name('book.destroy');
-            Route::get('/print', [BookshelfController::class, 'print'])->name('print');
+            Route::get('/print', [BookshelfController::class, 'print'])->name('book.print');
         
     
 });
@@ -54,11 +55,15 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
    
-     Route::get('/books/{id}/edit', [BookController::class,
-    'edit'])->name('book.edit');
-     Route::match(['put', 'patch'], '/books/{id}',
-    [BookController::class, 'update'])->name('book.update');
+     Route::get('/books/{id}/edit', [BookController::class,'edit'])->name('book.edit');
+     Route::match(['put', 'patch'], '/books/{id}', [BookController::class, 'update'])->name('book.update');
+     
+     Route::get('/books/export', [BookController::class,'export'])->name('book.export');
+     Route::post('/books/import', [BookController::class, 'import'])->name('book.import');
+    
     });
+
+   
 
 
 
