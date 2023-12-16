@@ -9,7 +9,7 @@
             <div class="bg-white dark:bg-gray-800 overflowhidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray100">
                      <x-primary-button tag="a" href="{{route('book.create')}}">Tambah Data Buku</x-primary-button>
-                     <x-primary-button tag="a" href="{{route('book.print')}}">Cetak Buku</x-primary-button>
+                     <x-primary-button tag="a" href="{{route('book.print')}}">Cetak PDF</x-primary-button>
                      <x-primary-button tag="a" href="{{ route('book.export')}}" target="_blank">Export Excel</x-primary-button>
                     <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'importbook')" >Import Excel</x-primary-button>
 
